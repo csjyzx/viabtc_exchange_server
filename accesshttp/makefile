@@ -1,4 +1,4 @@
 TARGET  := accesshttp.exe
-INCS = -I ../network -I ../utils
-LIBS = -L ../utils -lutils -L ../network -lnetwork -Wl,-Bstatic -lev -ljansson -lmpdec -lrdkafka -lz -lssl -lcrypto -lhiredis -Wl,-Bdynamic -lm -lpthread -ldl
+INCS = -I ../network -I ../utils -I ../../jansson/src -I ../../librdkafka/src
+LIBS = -L ../libs -Wl,-Bstatic -lutils -lnetwork -lhiredis -lev -ljansson -lmpdec -lrdkafka -lz -lssl -lcrypto -Wl,-Bdynamic -lm -lpthread -ldl
 include ../makefile.inc

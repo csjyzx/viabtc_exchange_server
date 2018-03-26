@@ -10,8 +10,8 @@
 # include <stdint.h>
 # include <stdbool.h>
 # include <pthread.h>
-# include <librdkafka/rdkafka.h>
 
+# include "rdkafka.h"
 # include "nw_evt.h"
 # include "ut_sds.h"
 # include "ut_list.h"

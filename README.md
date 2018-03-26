@@ -99,3 +99,58 @@ Example response: `{"code": 0, "message": null, "data": {"user_id": 1}}`
 * BCC: 1364ZurPv8uTgnFr1uqowJDFF15aNFemkf
 * ETH: 0xA2913166AE0689C07fCB5C423559239bB2814b6D
 
+## Thanks for ViaBTC's code, now let's show how to build and run the services!
+
+* Use apt-get install to install following packages: libev-dev, libmpdec-dev, libssl-dev, libmysqlclient-dev, libtool, autoconf, gcc, g++, build-essential, redis-server, redis-sentinel, mysql-server, mysql-client.
+* Install Oracle JDK8
+  * add-apt-repository ppa:webupd8team/java
+  * apt-get update
+  * apt-get install oracle-java8-installer
+  * apt-get install oracle-java8-set-default
+* Create a folder XXX to place everything required, including this project.
+* Clone project and create new folders "log", "libs".
+* Install Kafka
+  * Download package from http://archive.apache.org/dist/kafka/0.11.0.0/kafka_2.11-0.11.0.0.tgz, run "tar cfv filename" to unpackage it.
+  * create new folders "logs" and "zkData"
+  * Enter conf folder, edit server.properties
+    * broker.id=1
+    * port=9092 # The following 2 lines maybe not in the file, just add it.
+    * host.name=localhost
+    * log.dirs=/home/trader/Documents/tldae/kafka_2.11-0.11.0.0/logs # It's OK to any folder you like
+  * edit zookeeper.properties
+    * dataDir=/home/trader/Documents/tldae/kafka_2.11-0.11.0.0/zkData
+  * Start Zookeeper: bin/zookeeper-server-start.sh config/zookeeper.properties & (Use & to run at background)
+  * Start Kafka: bin/kafka-server-start.sh config/server.properties
+* Build jansson
+  * Clone code from https://github.com/akheron/jansson
+  * autoreconf -i (if configure not found), ./configure, make, copy "src/.lib/libjansson.a" to current project's "libs" folder.
+* Build librdkafka
+  * Clone code from https://github.com/edenhill/librdkafka
+  * ./configure, make, copy "src/librdkafka.a" to current project's "libs" folder.
+* Build libcurl
+  * Get code from http://curl.haxx.se/download/curl-7.45.0.tar.gz, run "tar zxfv filename" to unpackage it.
+  * Run "./configure --disable-ldap --disable-ldaps" first, or you'll hit lots link errors in future.
+  * make, copy "lib/.libs/libcurl.a" to current project's "libs" folder.
+* Redis
+  * Enter folder "redis.conf"
+  * Run "sudo redis-server redis.conf.6381" (Same for 6382 and 6383)
+  * Run "redis -p 6382", run "SLAVEOF 127.0.0.1 6381" (Same for 6383)
+  * Run "sudo redis-sentinel sentinel.conf.26381" (Same for 6382 and 6383)
+  * How to verify?
+    * redis-cli -p 26381 (Same check for 26382 and 26383)
+    * run "SENTINEL get-master-addr-by-name mymaster", you should see 2 lines: "127.0.0.1" and "6381".
+* MySQL
+  * Use root to login and create 2 tables: trade_history and trade_log
+  * Create a user "trader" (or any name you like) and grant privileges
+    * create user trader@localhost identified by "Abcd1234";
+    * grant all privileges on trade_history.* to trader@localhost identified by 'Abcd1234';
+    * grant all privileges on trade_log.* to trader@localhost identified by 'Abcd1234';
+    * flush privileges;
+  * Enter folder "sql", and execute
+    * mysql -h localhost -u trader -p trader_history < create_trade_history.sql
+    * mysql -h localhost -u trader -p trader_history < create_trade_log.sql
+* Build project
+  * Make sure jansson, librdkafka, curl and the project under the same folder.
+  * Build "depends/hiredis", "network" and "utils", copy the corresponding libxxx.a files to "libs" folder.
+  * For "config.json", please modify log.path and db_xxx information accordingly.
+  * Run "sudo ./xxx.exe config.json" to start the service (accessws need more things, not fixed yet), remember run "marketprice" after "matchengine".

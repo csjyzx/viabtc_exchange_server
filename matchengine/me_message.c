@@ -6,7 +6,7 @@
 # include "me_config.h"
 # include "me_message.h"
 
-# include <librdkafka/rdkafka.h>
+# include "rdkafka.h"
 
 static rd_kafka_t *rk;
 
