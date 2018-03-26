@@ -110,7 +110,7 @@ Example response: `{"code": 0, "message": null, "data": {"user_id": 1}}`
 * Create a folder XXX to place everything required, including this project.
 * Clone project and create new folders "log", "libs".
 * Install Kafka
-  * Download package from http://archive.apache.org/dist/kafka/0.11.0.0/kafka_2.11-0.11.0.0.tgz, run "tar cfv filename" to unpackage it.
+  * Download package from http://archive.apache.org/dist/kafka/0.11.0.0/kafka_2.11-0.11.0.0.tgz, run "tar xfv filename" to unpackage it.
   * create new folders "logs" and "zkData"
   * Enter conf folder, edit server.properties
     * broker.id=1
