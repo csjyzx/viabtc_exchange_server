@@ -134,7 +134,7 @@ Example response: `{"code": 0, "message": null, "data": {"user_id": 1}}`
 * Redis
   * Enter folder "redis.conf"
   * Run "sudo redis-server redis.conf.6381" (Same for 6382 and 6383)
-  * Run "redis -p 6382", run "SLAVEOF 127.0.0.1 6381" (Same for 6383)
+  * Run "redis-cli -p 6382", run "SLAVEOF 127.0.0.1 6381" (Same for 6383)
   * Run "sudo redis-sentinel sentinel.conf.26381" (Same for 6382 and 6383)
   * How to verify?
     * redis-cli -p 26381 (Same check for 26382 and 26383)
@@ -147,8 +147,9 @@ Example response: `{"code": 0, "message": null, "data": {"user_id": 1}}`
     * grant all privileges on trade_log.* to trader@localhost identified by 'Abcd1234';
     * flush privileges;
   * Enter folder "sql", and execute
-    * mysql -h localhost -u trader -p trader_history < create_trade_history.sql
-    * mysql -h localhost -u trader -p trader_history < create_trade_log.sql
+    * mysql -h localhost -u trader -p trade_history < create_trade_history.sql
+    * mysql -h localhost -u trader -p trade_log < create_trade_log.sql
+    * Run "sh init_trade_history.sh", don't forget to update the username/password in script.
 * Build project
   * Make sure jansson, librdkafka, curl and the project under the same folder.
   * Build "depends/hiredis", "network" and "utils", copy the corresponding libxxx.a files to "libs" folder.
