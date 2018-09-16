@@ -5,7 +5,7 @@
         "core_limit": 1000000000
     },
     "log": {
-        "path": "/home/trader/Documents/tldae/viabtc_exchange_server/logs/marketprice",
+        "path": "/home/yingl/trade_engine/viabtc_exchange_server/logs",
         "flag": "fatal,error,warn,info,debug,trace",
         "num": 10
     },

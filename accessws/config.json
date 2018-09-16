@@ -5,7 +5,7 @@
         "core_limit": 1000000000
     },
     "log": {
-        "path": "/var/log/trade/accessws",
+        "path": "/home/yingl/trade_engine/viabtc_exchange_server/logs",
         "flag": "fatal,error,warn,info,debug,trace",
         "num": 10
     },
